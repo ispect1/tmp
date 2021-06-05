@@ -98,49 +98,27 @@ def is_sign_in():
     return jsonify({'code': -1, 'text': 'Сессия не найдена'})
 
 
-@app.route('/api/sign_in', methods=['GET', 'POST'])
+@app.route('/api/signIn', methods=['GET', 'POST'])
 def login():
     data = request.json or {}
     print(data)
+    if 'tabNum' not in data or 'password' not in data:
+        return jsonify({'text': 'Неверный формат данных', 'code': -2})
     tab_num = data['tabNum']
+    if tab_num not in all_users:
+        return jsonify({'text': 'Такого табельного нет в базе', 'code': -3})
     if tab_num not in register_users:
-        return jsonify({'text': 'Пользователь не зарегистрирован', 'code': -2})
-
+        _hash = generate_hash()
+        data['accessToken'] = _hash
+        data['places'] = []
+        register_users[tab_num] = data
+        return jsonify({'code': 1, 'text': 'Успешно', 'data': {'accessToken': _hash}})
     if data['password'] != register_users[tab_num][data['password']] and data['tabNum'] != tab_num:
         return jsonify({'text': 'Неправильный табельный/пароль', 'code': -1})
     _hash = generate_hash()
     data['accessToken'] = _hash
     register_users[tab_num] = data
     return jsonify({'code': 1, 'text': 'Успешно', 'data': {'accessToken': _hash}})
-
-
-@app.route('/api/sign_up', methods=['GET', 'POST'])
-def register():
-    data = request.json or {}
-    print(data)
-    if set(data) != {"tabNum", 'password', 'identifier'}:
-        return jsonify({'text': 'Неверный формат данных', 'code': -2})
-    tab_num = data['tabNum']
-    if tab_num in register_users:
-        return jsonify({'text': 'Уже зарегистрирован', 'code': -1})
-    elif tab_num in all_users:
-        _hash = generate_hash()
-        data['accessToken'] = _hash
-        data['places'] = []
-
-        register_users[tab_num] = data
-        return jsonify({'code': 1, 'text': 'Успешно', 'data': {'accessToken': _hash}})
-    else:
-        return jsonify({'text': 'Такого табельного нет в базе', 'code': -3})
-    # try:
-    #     data = User.query.filter_by(username=name, password=passw).first()
-    #     if data is not None:
-    #         session['logged_in'] = True
-    #         return redirect(url_for('home'))
-    #     else:
-    #         return 'Dont Login'
-    # except:
-    #     return "Dont Login"
 
 
 # @app.route('/register', methods=['GET', 'POST'])
