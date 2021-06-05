@@ -117,6 +117,7 @@ def get_places():
         sorted_places = [place for place in sorted_places if place['month'] == data['month']]
     if 'year' in data:
         sorted_places = [place for place in sorted_places if place['year'] == data['year']]
+    print(sorted_places[page*count:(page+1)*count])
     return jsonify(code=1, text='Успешно', data=sorted_places[page*count:(page+1)*count])
 
 
