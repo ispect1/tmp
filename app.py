@@ -203,7 +203,7 @@ if __name__ == '__main__':
 Благодаря спорту происходит улучшение физико-психологических характеристик. Спорт – это основная и неотъемлемая часть физической культуры. Именно спорт полностью раскрывает и мобилизирует нравственные и психические качества человека."""
 
     hok_photo = 'https://i.ibb.co/104hLHJ/photo-2021-06-05-20-10-09.jpg'
-    foot_photo = 'https://image.freepik.com/free-photo/football-fans-stadium-from_23-2147844564.jpg'
+    foot_photo = 'https://i.ibb.co/Hh3cQN2/bence-balla-schottner-de-Gn9v-Sw-XIM-unsplash.jpg'
     basket_photo = 'https://image.freepik.com/free-photo/soccer-football-stadium-with-spotlights_163782-3549.jpg'
     plavanie_photo = 'https://image.freepik.com/free-photo/stadium-lights-flashes-football-field_99433-1401.jpg'
     beg_photo = 'https://marathonec.ru/wp-content/uploads/2020/05/cross-country-beg.jpg'
