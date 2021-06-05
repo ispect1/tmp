@@ -224,7 +224,9 @@ if __name__ == '__main__':
               "year": 2021, 'city': "Москва", 'freeSeats': 30, 'photoUrl': plavanie_photo, 'datetime': '25 июля'},
         "6": {'placeUuid': "5", "title": "Футбол", "description": description, "day": 6, "month": 6,
               "year": 2021, 'city': "Казань", 'freeSeats': 30, 'photoUrl': foot_photo, 'datetime': '25 июля'},
-        "7": {'placeUuid': "6", "title": "Хоккей", "description": description, "day": 6, "month": 6,
+        "7": {'placeUuid': "5", "title": "Футбол", "description": description, "day": 6, "month": 6,
+              "year": 2021, 'city': "Казань", 'freeSeats': 30, 'photoUrl': foot_photo, 'datetime': '25 июля'},
+        "8": {'placeUuid': "6", "title": "Хоккей", "description": description, "day": 6, "month": 6,
               "year": 2021, 'city': "Санкт-Петербург", 'freeSeats': 30, 'photoUrl': hok_photo, 'datetime': '25 июля'}
               }
 
