@@ -47,6 +47,7 @@ def home():
 @app.route('/api/subscribe', methods=['GET', 'POST'])
 def subscribe():
     data = request.json
+    print('tuta', data, type(data))
     access_token = data['accessToken']
     place_uid = data['placeUuid']
     if place_uid not in places:
