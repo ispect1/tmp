@@ -7,6 +7,7 @@ from instagram import getfollowedby, getname
 from datetime import date
 from flask import jsonify
 from datetime import date
+from utils import from_base64
 
 
 app = Flask(__name__)
@@ -52,7 +53,7 @@ def home():
 # @app.route('/api/unsubscribe')
 @app.route('/api/сheckVisit')
 def check_visit():
-    data = request.json
+    data = from_base64(request.json) or {}
     access_token = data['accessToken']
 
     for tab_num, user_data in register_users.items():
@@ -69,7 +70,7 @@ def get_cities():
 
 @app.route('/api/getPlaces', methods=['GET', 'POST'])
 def get_places():
-    data = request.json
+    data = from_base64(request.json) or {}
     city = data['city']
     count = data['count']
     page = data['page']
@@ -89,7 +90,7 @@ def get_places():
 
 @app.route('/api/is_sign_in', methods=["GET", "POST"])
 def is_sign_in():
-    data = request.json or {}
+    data = from_base64(request.json) or {}
     print(data)
     print(register_users)
     for tab_num, user_data in register_users.items():
@@ -100,7 +101,7 @@ def is_sign_in():
 
 @app.route('/api/signIn', methods=['GET', 'POST'])
 def login():
-    data = request.json or {}
+    data = from_base64(request.json) or {}
     print(data)
     if 'tabNum' not in data or 'password' not in data:
         return jsonify({'text': 'Неверный формат данных', 'code': -2})
