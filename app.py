@@ -170,7 +170,7 @@ def login():
         return jsonify({'text': 'Неправильный табельный/пароль', 'code': -1})
     _hash = generate_hash()
     data['accessToken'] = _hash
-    data['places'] = {}
+    # data['places'] = {}
     data['isAdmin'] = is_admin
     register_users[tab_num] = data
     print('users', register_users)
