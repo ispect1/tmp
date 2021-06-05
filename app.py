@@ -210,19 +210,19 @@ if __name__ == '__main__':
 
     places = {
         "1": {'placeUuid': "1", "title": "Футбол", "description": description, "day": 6, "month": 6,
-              "year": 2021, 'city': "Москва", 'freeSeats': 1, 'photoUrl': foot_photo, 'datetime': '25_июля'},
+              "year": 2021, 'city': "Москва", 'freeSeats': 1, 'photoUrl': foot_photo, 'datetime': '25 июля'},
         "2": {'placeUuid': "2", "title": "Хоккей", "description": description, "day": 6, "month": 6,
-              "year": 2021, 'city': "Москва", 'freeSeats': 1, 'photoUrl': hok_photo, 'datetime': '25_июля'},
+              "year": 2021, 'city': "Москва", 'freeSeats': 1, 'photoUrl': hok_photo, 'datetime': '25 июля'},
         "3": {'placeUuid': "3", "title": "Баскетбол", "description": description, "day": 6, "month": 6,
-              "year": 2021, 'city': "Москва", 'freeSeats': 30, 'photoUrl': basket_photo, 'datetime': '25_июля'},
+              "year": 2021, 'city': "Москва", 'freeSeats': 30, 'photoUrl': basket_photo, 'datetime': '25 июля'},
         "4": {'placeUuid': "4", "title": "Бег", "description": description, "day": 7, "month": 6,
-              "year": 2021, 'city': "Москва", 'freeSeats': 30, 'photoUrl': beg_photo, 'datetime': '25_июля'},
+              "year": 2021, 'city': "Москва", 'freeSeats': 30, 'photoUrl': beg_photo, 'datetime': '25 июля'},
         "5": {'placeUuid': "4", "title": "Плавание", "description": description, "day": 8, "month": 6,
-              "year": 2021, 'city': "Москва", 'freeSeats': 30, 'photoUrl': plavanie_photo, 'datetime': '25_июля'},
+              "year": 2021, 'city': "Москва", 'freeSeats': 30, 'photoUrl': plavanie_photo, 'datetime': '25 июля'},
         "6": {'placeUuid': "5", "title": "Футбол", "description": description, "day": 6, "month": 6,
-              "year": 2021, 'city': "Казань", 'freeSeats': 30, 'photoUrl': foot_photo, 'datetime': '25_июля'},
+              "year": 2021, 'city': "Казань", 'freeSeats': 30, 'photoUrl': foot_photo, 'datetime': '25 июля'},
         "7": {'placeUuid': "6", "title": "Хоккей", "description": description, "day": 6, "month": 6,
-              "year": 2021, 'city': "Санкт-Петербург", 'freeSeats': 30, 'photoUrl': hok_photo, 'datetime': '25_июля'}
+              "year": 2021, 'city': "Санкт-Петербург", 'freeSeats': 30, 'photoUrl': hok_photo, 'datetime': '25 июля'}
               }
 
     app.debug = True
