@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+# coding=utf-8
 """Flask Login Example and instagram fallowing find"""
 from crypto import generate_hash
 from flask import Flask, url_for, render_template, request, redirect, session
