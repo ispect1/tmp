@@ -194,21 +194,27 @@ if __name__ == '__main__':
 
 Благодаря спорту происходит улучшение физико-психологических характеристик. Спорт – это основная и неотъемлемая часть физической культуры. Именно спорт полностью раскрывает и мобилизирует нравственные и психические качества человека."""
 
+    hok_photo = 'https://sportkomanda.com/wp-content/uploads/2020/01/lb-2.jpg'
+    foot_photo = 'https://lh3.googleusercontent.com/proxy/wnroUQ-XbGR5olbYPWyW2B_04b_odFJFUyL70sgbTYDq-QV9qzPGCBUUalTZEVutOXabb1Bx'
+    basket_photo = 'https://the-challenger.ru/wp-content/uploads/2015/03/rr6WqeTW_RY-800x533.jpg'
+    plavanie_photo = 'https://s-cdn.sportbox.ru/images/styles/upload/fp_fotos/66/73/03f41d10df346d4a076b655ffaf73feb60a569c771260794773553.jpg'
+    beg_photo = 'https://marathonec.ru/wp-content/uploads/2020/05/cross-country-beg.jpg'
+
     places = {
         "1": {'placeUuid': "1", "title": "Футбол", "description": description, "day": 6, "month": 6,
-              "year": 2021, 'city': "Москва", 'freeSeats': 1},
+              "year": 2021, 'city': "Москва", 'freeSeats': 1, 'photoUrl': foot_photo},
         "2": {'placeUuid': "2", "title": "Хоккей", "description": description, "day": 6, "month": 6,
-              "year": 2021, 'city': "Москва", 'freeSeats': 1},
+              "year": 2021, 'city': "Москва", 'freeSeats': 1, 'photoUrl': hok_photo},
         "3": {'placeUuid': "3", "title": "Баскетбол", "description": description, "day": 6, "month": 6,
-              "year": 2021, 'city': "Москва", 'freeSeats': 30},
+              "year": 2021, 'city': "Москва", 'freeSeats': 30, 'photoUrl': basket_photo},
         "4": {'placeUuid': "4", "title": "Бег", "description": description, "day": 7, "month": 6,
-              "year": 2021, 'city': "Москва", 'freeSeats': 30},
+              "year": 2021, 'city': "Москва", 'freeSeats': 30, 'photoUrl': beg_photo},
         "5": {'placeUuid': "4", "title": "Плавание", "description": description, "day": 8, "month": 6,
-              "year": 2021, 'city': "Москва", 'freeSeats': 30},
+              "year": 2021, 'city': "Москва", 'freeSeats': 30, 'photoUrl': plavanie_photo},
         "6": {'placeUuid': "5", "title": "Футбол", "description": description, "day": 6, "month": 6,
-              "year": 2021, 'city': "Казань", 'freeSeats': 30},
+              "year": 2021, 'city': "Казань", 'freeSeats': 30, 'photoUrl': foot_photo},
         "7": {'placeUuid': "6", "title": "Хоккей", "description": description, "day": 6, "month": 6,
-              "year": 2021, 'city': "Санкт-Петербург", 'freeSeats': 30}
+              "year": 2021, 'city': "Санкт-Петербург", 'freeSeats': 30, 'photoUrl': hok_photo}
               }
 
     app.debug = True
