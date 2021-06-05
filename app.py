@@ -43,7 +43,7 @@ def home():
 #     return json.dumps(None)
 
 
-@app.route('/api/subscribe')
+@app.route('/api/subscribe', methods=['GET', 'POST'])
 def subscribe():
     data = request.json
     access_token = data['accessToken']
@@ -62,7 +62,7 @@ def subscribe():
     return jsonify(code=-2, text='Токен неверный')
 
 
-@app.route('/api/unsubscribe')
+@app.route('/api/unsubscribe', methods=['GET', 'POST'])
 def unsubscribe():
     data = request.json
     access_token = data['accessToken']
@@ -81,7 +81,7 @@ def unsubscribe():
     return jsonify(code=-2, text='Токен неверный')
 
 
-@app.route('/api/сheckVisit')
+@app.route('/api/сheckVisit', methods=['GET', 'POST'])
 def check_visit():
     data = from_base64(request.json) or {}
     access_token = data['accessToken']
