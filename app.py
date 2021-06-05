@@ -130,7 +130,7 @@ def get_places():
     if curr_user_info is None:
         return jsonify(code=-1, text='Неправильный токен')
     for place in sorted_places:
-        print(curr_user_info)
+        print('info', curr_user_info)
         # place['isSubscribe'] = place['placeUuid'] in curr_user_info['places']
         place['isSubscribe'] = True
     return jsonify(code=1, text='Успешно', data=sorted_places[page*count:(page+1)*count])
