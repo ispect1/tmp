@@ -155,19 +155,22 @@ def login():
     tab_num = data['tabNum']
     if tab_num not in all_users:
         return jsonify({'text': 'Такого табельного нет в базе', 'code': -3})
+    is_admin = False if tab_num != 'admin' else True
     if tab_num not in register_users:
         _hash = generate_hash()
         data['accessToken'] = _hash
         data['places'] = {}
+        data['isAdmin'] = is_admin
         register_users[tab_num] = data
         return jsonify({'code': 1, 'text': 'Успешно', 'data': {'accessToken': _hash}})
     if data['password'] != register_users[tab_num]['password'] and data['tabNum'] != tab_num:
         return jsonify({'text': 'Неправильный табельный/пароль', 'code': -1})
     _hash = generate_hash()
     data['accessToken'] = _hash
+    data['places'] = {}
+    data['isAdmin'] = is_admin
     register_users[tab_num] = data
-    isAdmin = False if tab_num != 'admin' else True
-    data = {'code': 1, 'text': 'Успешно', 'data': {'accessToken': _hash, 'isAdmin': isAdmin}}
+    data = {'code': 1, 'text': 'Успешно', 'data': {'accessToken': _hash, 'isAdmin': is_admin}}
     return jsonify(data)
 
 
