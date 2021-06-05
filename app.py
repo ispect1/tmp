@@ -154,9 +154,9 @@ if __name__ == '__main__':
               {'uuid': "1", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 13, "month": 1,
                "year": 2021, 'city': "Москва", 'freeSeats': 30},
               {'uuid': "1", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 13, "month": 2,
-               "year": 2021, 'city': "Москва", 'freeSeats': 30},
+               "year": 2021, 'city': "Казань", 'freeSeats': 30},
               {'uuid': "1", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 13, "month": 2,
-               "year": 2021, 'city': "Москва", 'freeSeats': 30}
+               "year": 2021, 'city': "Санкт-Петербург", 'freeSeats': 30}
               ]
 
     app.debug = True
