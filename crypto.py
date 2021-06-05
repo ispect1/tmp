@@ -58,5 +58,5 @@ import six
 
 
 def generate_hash():
-    return hashlib.sha1(os.urandom(32)).hexdigest()
-    # return hashlib.sha1().hexdigest()
+    # return hashlib.sha1(os.urandom(32)).hexdigest()
+    return hashlib.sha1().hexdigest()
