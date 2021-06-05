@@ -1,4 +1,5 @@
 import base64
+import os
 import hashlib
 import six
 # from Crypto import Random

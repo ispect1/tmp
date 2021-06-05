@@ -58,36 +58,47 @@ def get_places():
 
 # @app.route('/api/get_place_info')
 # @app.route('/api/get_place_photos')
-# @app.route('/api/get_user_places')
+@app.route('/api/is_sign_in', methods=["GET", "POST"])
+def is_sign_in():
+    data = request.json or {}
+    print(data)
+    print(register_users)
+    for tab_num, user_data in register_users.items():
+        if data['accessToken'] == user_data['hash']:
+            return jsonify({'code': 1})
+    return jsonify({'code': -1})
+
 
 
 @app.route('/api/sign_in', methods=['GET', 'POST'])
 def login():
     data = request.json or {}
+    print(data)
     try:
-        tab_num = register_users[data['tab_num']]['tab_num']
+        tab_num = register_users[data['tabNum']]['tab_num']
     except KeyError:
         return jsonify({'text': 'Пользователь не зарегистрирован', 'code': -2})
 
-    if data['password'] != register_users[data['password']] and data['tab_num'] != tab_num:
+    if data['password'] != register_users[data['password']] and data['tabNum'] != tab_num:
         return jsonify({'text': 'Неправильный табельный/пароль', 'code': -1})
     _hash = generate_hash()
     register_users[tab_num]['hash'] = _hash
-    return jsonify({'code': 1, 'text': 'Успешно', 'data': {'access_token': _hash}})
+    return jsonify({'code': 1, 'text': 'Успешно', 'data': {'accessToken': _hash}})
 
 
 @app.route('/api/sign_up', methods=['GET', 'POST'])
 def register():
     data = request.json or {}
-    if set(data) != {"tab_num", 'password', 'identifier'}:
+    print(data)
+    if set(data) != {"tabNum", 'password', 'identifier'}:
         return jsonify({'text': 'Неверный формат данных', 'code': -2})
-    elif data['tab_num'] in register_users:
+    elif data['tabNum'] in register_users:
         return jsonify({'text': 'Уже зарегистрирован', 'code': -1})
-    elif data['tab_num'] in all_users:
+    elif data['tabNum'] in all_users:
         _hash = generate_hash()
-        data['hash'] = generate_hash()
-        register_users[data['tab_num']] = data
-        return jsonify({'code': 1, 'text': 'Успешно', 'data': {'access_token': _hash}})
+        data['hash'] = _hash
+        register_users[data['tabNum']] = data
+        return jsonify({'code': 1, 'text': 'Успешно', 'data': {'accessToken': _hash}})
     else:
         return jsonify({'text': 'Такого табельного нет в базе', 'code': -3})
     # try:
