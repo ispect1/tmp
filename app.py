@@ -79,7 +79,7 @@ def check_visit():
         if place_uid not in user_data['places']:
             return jsonify(code=-3, text='Пользователь уже зарегистрирован')
         user_data['places'][place_uid] = places[place_uid]
-        user_data['places'][place_uid]['isVisit'] = False
+        user_data['places'][place_uid]['isVisit'] = True
         return jsonify(code=1, text='Успешно')
 
     return jsonify(code=-2, text='Токен неверный')
