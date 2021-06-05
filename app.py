@@ -129,7 +129,7 @@ def get_places():
             curr_user_info = user_info
     if curr_user_info is None:
         return jsonify(code=-1, text='Неправильный токен')
-    print('info', curr_user_info)
+    # print('info', curr_user_info)
     for place in sorted_places:
         place['isSubscribe'] = place['placeUuid'] in curr_user_info['places']
     return jsonify(code=1, text='Успешно', data=sorted_places[page*count:(page+1)*count])
@@ -138,8 +138,8 @@ def get_places():
 @app.route('/api/isSignIn', methods=["GET", "POST"])
 def is_sign_in():
     data = from_base64(request.json) or {}
-    print(data)
-    print(register_users)
+    # print(data)
+    # print(register_users)
     for tab_num, user_data in register_users.items():
         if data['accessToken'] == user_data['accessToken']:
             return jsonify({'code': 1, 'text': 'Успешно'})
@@ -149,7 +149,7 @@ def is_sign_in():
 @app.route('/api/signIn', methods=['GET', 'POST'])
 def login():
     data = from_base64(request.json) or {}
-    print(data)
+    # print(data)
     if 'tabNum' not in data or 'password' not in data:
         return jsonify({'text': 'Неверный формат данных', 'code': -2})
     tab_num = data['tabNum']
@@ -170,6 +170,7 @@ def login():
     data['places'] = {}
     data['isAdmin'] = is_admin
     register_users[tab_num] = data
+    print(register_users)
     data = {'code': 1, 'text': 'Успешно', 'data': {'accessToken': _hash, 'isAdmin': is_admin}}
     return jsonify(data)
 
