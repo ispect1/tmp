@@ -66,8 +66,8 @@ def subscribe():
     return jsonify(code=-2, text='Токен неверный')
 
 
-@app.route('/api/unsubscribe', methods=['GET', 'POST'])
-def unsubscribe():
+@app.route('/api/checkVisit', methods=['GET', 'POST'])
+def check_visit():
     data = from_base64(request.json)
     access_token = data['accessToken']
     place_uid = data['placeUuid']
@@ -85,8 +85,8 @@ def unsubscribe():
     return jsonify(code=-2, text='Токен неверный')
 
 
-@app.route('/api/checkVisit', methods=['GET', 'POST'])
-def check_visit():
+@app.route('/api/unsubscribe', methods=['GET', 'POST'])
+def unsubscribe():
     data = from_base64(request.json) or {}
     access_token = data['accessToken']
     place_uid = data['placeUuid']
@@ -97,7 +97,7 @@ def check_visit():
 
         if place_uid not in user_data['places']:
             return jsonify(code=-2, text='Пользователь не зарегистрирован')
-
+        user_data['places'].pop(place_uid)
         return jsonify(code=1, text='Успешно')
     return jsonify(code=-1, text='Invalid token')
 
