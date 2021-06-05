@@ -204,25 +204,25 @@ if __name__ == '__main__':
 
     hok_photo = 'https://image.freepik.com/free-photo/football-background-grass-with-copyspace-right_23-2147832109.jpg'
     foot_photo = 'https://image.freepik.com/free-photo/football-fans-stadium-from_23-2147844564.jpg'
-    basket_photo = 'https://the-challenger.ru/wp-content/uploads/2015/03/rr6WqeTW_RY-800x533.jpg'
-    plavanie_photo = 'https://s-cdn.sportbox.ru/images/styles/upload/fp_fotos/66/73/03f41d10df346d4a076b655ffaf73feb60a569c771260794773553.jpg'
+    basket_photo = 'https://image.freepik.com/free-photo/soccer-football-stadium-with-spotlights_163782-3549.jpg'
+    plavanie_photo = 'https://image.freepik.com/free-photo/stadium-lights-flashes-football-field_99433-1401.jpg'
     beg_photo = 'https://marathonec.ru/wp-content/uploads/2020/05/cross-country-beg.jpg'
 
     places = {
         "1": {'placeUuid': "1", "title": "Футбол", "description": description, "day": 6, "month": 6,
-              "year": 2021, 'city': "Москва", 'freeSeats': 1, 'photoUrl': foot_photo},
+              "year": 2021, 'city': "Москва", 'freeSeats': 1, 'photoUrl': foot_photo, 'datetime': '25_июля'},
         "2": {'placeUuid': "2", "title": "Хоккей", "description": description, "day": 6, "month": 6,
-              "year": 2021, 'city': "Москва", 'freeSeats': 1, 'photoUrl': hok_photo},
+              "year": 2021, 'city': "Москва", 'freeSeats': 1, 'photoUrl': hok_photo, 'datetime': '25_июля'},
         "3": {'placeUuid': "3", "title": "Баскетбол", "description": description, "day": 6, "month": 6,
-              "year": 2021, 'city': "Москва", 'freeSeats': 30, 'photoUrl': basket_photo},
+              "year": 2021, 'city': "Москва", 'freeSeats': 30, 'photoUrl': basket_photo, 'datetime': '25_июля'},
         "4": {'placeUuid': "4", "title": "Бег", "description": description, "day": 7, "month": 6,
-              "year": 2021, 'city': "Москва", 'freeSeats': 30, 'photoUrl': beg_photo},
+              "year": 2021, 'city': "Москва", 'freeSeats': 30, 'photoUrl': beg_photo, 'datetime': '25_июля'},
         "5": {'placeUuid': "4", "title": "Плавание", "description": description, "day": 8, "month": 6,
-              "year": 2021, 'city': "Москва", 'freeSeats': 30, 'photoUrl': plavanie_photo},
+              "year": 2021, 'city': "Москва", 'freeSeats': 30, 'photoUrl': plavanie_photo, 'datetime': '25_июля'},
         "6": {'placeUuid': "5", "title": "Футбол", "description": description, "day": 6, "month": 6,
-              "year": 2021, 'city': "Казань", 'freeSeats': 30, 'photoUrl': foot_photo},
+              "year": 2021, 'city': "Казань", 'freeSeats': 30, 'photoUrl': foot_photo, 'datetime': '25_июля'},
         "7": {'placeUuid': "6", "title": "Хоккей", "description": description, "day": 6, "month": 6,
-              "year": 2021, 'city': "Санкт-Петербург", 'freeSeats': 30, 'photoUrl': hok_photo}
+              "year": 2021, 'city': "Санкт-Петербург", 'freeSeats': 30, 'photoUrl': hok_photo, 'datetime': '25_июля'}
               }
 
     app.debug = True
