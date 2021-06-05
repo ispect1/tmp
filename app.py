@@ -46,8 +46,8 @@ def home():
 @app.route('/api/subscribe')
 def subscribe():
     data = request.json
-    access_token = data['hash']
-    place_uid = data['uuid']
+    access_token = data['accessToken']
+    place_uid = data['placeUuid']
     if place_uid not in places:
         return jsonify(code=-1, text='Такого объекта не существует')
     for tab_num, user_data in register_users.items():
@@ -65,8 +65,8 @@ def subscribe():
 @app.route('/api/unsubscribe')
 def unsubscribe():
     data = request.json
-    access_token = data['hash']
-    place_uid = data['uuid']
+    access_token = data['accessToken']
+    place_uid = data['placeUuid']
     if place_uid not in places:
         return jsonify(code=-1, text='Такого объекта не существует')
     for tab_num, user_data in register_users.items():
@@ -80,17 +80,22 @@ def unsubscribe():
 
     return jsonify(code=-2, text='Токен неверный')
 
+
 @app.route('/api/сheckVisit')
 def check_visit():
     data = from_base64(request.json) or {}
     access_token = data['accessToken']
+    place_uid = data['placeUuid']
 
     for tab_num, user_data in register_users.items():
         if access_token != user_data['accessToken']:
             continue
-    # for tab_num
 
-    return jsonify(code=-3, text='Invalid token')
+        if place_uid not in user_data['places']:
+            return jsonify(code=-2, text='Пользователь не зарегистрирован')
+
+        return jsonify(code=1, text='Успешно')
+    return jsonify(code=-1, text='Invalid token')
 
 
 @app.route('/api/getCities')
@@ -123,7 +128,7 @@ def get_places():
         if user_info['accessToken'] == token:
             curr_user_info = user_info
     for place in sorted_places:
-        place['isSubscribe'] = place['uuid'] in curr_user_info['places']
+        place['isSubscribe'] = place['placeUuid'] in curr_user_info['places']
     return jsonify(code=1, text='Успешно', data=sorted_places[page*count:(page+1)*count])
 
 
@@ -185,18 +190,25 @@ def logout():
 if __name__ == '__main__':
     all_users = {"123", "456", "admin"}
     register_users = dict()
-    places = {"1": {'uuid': "1", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 12, "month": 1,
-                    "year": 2021, 'city': "Москва", 'freeSeats': 1},
-              "2": {'uuid': "2", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 12, "month": 1,
-                    "year": 2021, 'city': "Москва", 'freeSeats': 30},
-              "3": {'uuid': "3", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 12, "month": 1,
-                    "year": 2021, 'city': "Москва", 'freeSeats': 0},
-              "4": {'uuid': "4", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 13, "month": 1,
-                    "year": 2021, 'city': "Москва", 'freeSeats': 30},
-              "5": {'uuid': "5", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 13, "month": 2,
-                    "year": 2021, 'city': "Казань", 'freeSeats': 30},
-              "6": {'uuid': "6", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 13, "month": 2,
-                    "year": 2021, 'city': "Санкт-Петербург", 'freeSeats': 30}
+    description = """Спорт – это специфический вид интеллектуальной и физической активности, который совершается человеком в соревновательных целях. Главной мотивацией занятия спортом является желание человека улучшить свое физическое здоровье, получить чувство морального удовлетворения.
+
+Благодаря спорту происходит улучшение физико-психологических характеристик. Спорт – это основная и неотъемлемая часть физической культуры. Именно спорт полностью раскрывает и мобилизирует нравственные и психические качества человека."""
+
+    places = {
+        "1": {'placeUuid': "1", "title": "Футбол", "description": description, "day": 6, "month": 6,
+              "year": 2021, 'city': "Москва", 'freeSeats': 1},
+        "2": {'placeUuid': "2", "title": "Хоккей", "description": description, "day": 6, "month": 6,
+              "year": 2021, 'city': "Москва", 'freeSeats': 1},
+        "3": {'placeUuid': "3", "title": "Баскетбол", "description": description, "day": 6, "month": 6,
+              "year": 2021, 'city': "Москва", 'freeSeats': 30},
+        "4": {'placeUuid': "4", "title": "Бег", "description": description, "day": 7, "month": 6,
+              "year": 2021, 'city': "Москва", 'freeSeats': 30},
+        "5": {'placeUuid': "4", "title": "Плавание", "description": description, "day": 8, "month": 6,
+              "year": 2021, 'city': "Москва", 'freeSeats': 30},
+        "6": {'placeUuid': "5", "title": "Футбол", "description": description, "day": 6, "month": 6,
+              "year": 2021, 'city': "Казань", 'freeSeats': 30},
+        "7": {'placeUuid': "6", "title": "Хоккей", "description": description, "day": 6, "month": 6,
+              "year": 2021, 'city': "Санкт-Петербург", 'freeSeats': 30}
               }
 
     app.debug = True
