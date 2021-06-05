@@ -62,7 +62,6 @@ def subscribe():
     return jsonify(code=-2, text='Токен неверный')
 
 
-
 @app.route('/api/unsubscribe')
 def unsubscribe():
     data = request.json
@@ -106,6 +105,7 @@ def get_places():
     city = data['city']
     count = data['count']
     page = data['page']
+    token = data['accessToken']
     sorted_places = [place for place in list(places.values()) if place['city'] == city]
     if set(data) == {'city'}:
         sorted_places = [place for place in sorted_places if date(day=place['day'], month=place['month'],
@@ -117,7 +117,13 @@ def get_places():
         sorted_places = [place for place in sorted_places if place['month'] == data['month']]
     if 'year' in data:
         sorted_places = [place for place in sorted_places if place['year'] == data['year']]
-    print(sorted_places[page*count:(page+1)*count])
+    sorted_places = sorted_places[page*count:(page+1)*count]
+    curr_user_info = None
+    for user_info in register_users.values():
+        if user_info['accessToken'] == token:
+            curr_user_info = user_info
+    for place in sorted_places:
+        place['isSubscribe'] = place['uuid'] in curr_user_info['places']
     return jsonify(code=1, text='Успешно', data=sorted_places[page*count:(page+1)*count])
 
 
