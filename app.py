@@ -166,7 +166,8 @@ def login():
     data['accessToken'] = _hash
     register_users[tab_num] = data
     isAdmin = False if tab_num != 'admin' else True
-    return jsonify({'code': 1, 'text': 'Успешно', 'data': {'accessToken': _hash, isAdmin: isAdmin}})
+    data = {'code': 1, 'text': 'Успешно', 'data': {'accessToken': _hash, 'isAdmin': isAdmin}}
+    return jsonify(data)
 
 
 # @app.route('/register', methods=['GET', 'POST'])
