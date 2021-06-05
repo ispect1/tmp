@@ -82,7 +82,7 @@ def unsubscribe():
     return jsonify(code=-2, text='Токен неверный')
 
 
-@app.route('/api/сheckVisit', methods=['GET', 'POST'])
+@app.route('/api/checkVisit', methods=['GET', 'POST'])
 def check_visit():
     data = from_base64(request.json) or {}
     access_token = data['accessToken']
