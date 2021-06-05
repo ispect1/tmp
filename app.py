@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from instagram import getfollowedby, getname
 from datetime import date
 from flask import jsonify
+from datetime import date
 
 
 app = Flask(__name__)
@@ -49,40 +50,67 @@ def home():
 #     hash = data['hash']
 #     place_uid =
 # @app.route('/api/unsubscribe')
-# @app.route('/api/checking')
-@app.route('/api/get_places', methods=['GET', 'POST'])
+@app.route('/api/сheckVisit')
+def check_visit():
+    data = request.json
+    access_token = data['accessToken']
+
+    for tab_num, user_data in register_users.items():
+        if access_token != user_data['accessToken']:
+            continue
+
+    return jsonify(code=-3, text='Invalid token')
+
+
+@app.route('/api/getCities')
+def get_cities():
+    return jsonify(code=1, text='Успешно', data=['Москва', 'Казань', 'Санкт-Петербург'])
+
+
+@app.route('/api/getPlaces', methods=['GET', 'POST'])
 def get_places():
     data = request.json
-    print(data)
-    return jsonify(places)
+    city = data['city']
+    count = data['count']
+    page = data['page']
+    sorted_places = [place for place in places if place['city'] == city]
+    if set(data) == {'city'}:
+        sorted_places = [place for place in sorted_places if date(day=place['day'], month=place['month'],
+                                                                  year=place['year']) >= date.today()]
+    sorted_places = sorted(sorted_places, key=lambda x: (x['day'], x['month'], x['year']))
+    if 'day' in data:
+        sorted_places = [place for place in sorted_places if place['day'] == data['day']]
+    if 'month' in data:
+        sorted_places = [place for place in sorted_places if place['month'] == data['month']]
+    if 'year' in data:
+        sorted_places = [place for place in sorted_places if place['year'] == data['year']]
+    return jsonify(code=1, text='Успешно', data=sorted_places[page*count:(page+1)*count])
 
-# @app.route('/api/get_place_info')
-# @app.route('/api/get_place_photos')
+
 @app.route('/api/is_sign_in', methods=["GET", "POST"])
 def is_sign_in():
     data = request.json or {}
     print(data)
     print(register_users)
     for tab_num, user_data in register_users.items():
-        if data['accessToken'] == user_data['hash']:
-            return jsonify({'code': 1})
-    return jsonify({'code': -1})
-
+        if data['accessToken'] == user_data['accessToken']:
+            return jsonify({'code': 1, 'text': 'Успешно'})
+    return jsonify({'code': -1, 'text': 'Сессия не найдена'})
 
 
 @app.route('/api/sign_in', methods=['GET', 'POST'])
 def login():
     data = request.json or {}
     print(data)
-    try:
-        tab_num = register_users[data['tabNum']]['tab_num']
-    except KeyError:
+    tab_num = data['tabNum']
+    if tab_num not in register_users:
         return jsonify({'text': 'Пользователь не зарегистрирован', 'code': -2})
 
-    if data['password'] != register_users[data['password']] and data['tabNum'] != tab_num:
+    if data['password'] != register_users[tab_num][data['password']] and data['tabNum'] != tab_num:
         return jsonify({'text': 'Неправильный табельный/пароль', 'code': -1})
     _hash = generate_hash()
-    register_users[tab_num]['hash'] = _hash
+    data['accessToken'] = _hash
+    register_users[tab_num] = data
     return jsonify({'code': 1, 'text': 'Успешно', 'data': {'accessToken': _hash}})
 
 
@@ -92,12 +120,15 @@ def register():
     print(data)
     if set(data) != {"tabNum", 'password', 'identifier'}:
         return jsonify({'text': 'Неверный формат данных', 'code': -2})
-    elif data['tabNum'] in register_users:
+    tab_num = data['tabNum']
+    if tab_num in register_users:
         return jsonify({'text': 'Уже зарегистрирован', 'code': -1})
-    elif data['tabNum'] in all_users:
+    elif tab_num in all_users:
         _hash = generate_hash()
-        data['hash'] = _hash
-        register_users[data['tabNum']] = data
+        data['accessToken'] = _hash
+        data['places'] = []
+
+        register_users[tab_num] = data
         return jsonify({'code': 1, 'text': 'Успешно', 'data': {'accessToken': _hash}})
     else:
         return jsonify({'text': 'Такого табельного нет в базе', 'code': -3})
@@ -136,17 +167,17 @@ if __name__ == '__main__':
     all_users = {"123", "456", "admin"}
     register_users = dict()
     places = [{'uuid': "1", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 12, "month": 1,
-              "year": 2021, 'city': "Москва", 'free_seats': 1},
+              "year": 2021, 'city': "Москва", 'freeSeats': 1},
               {'uuid': "1", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 12, "month": 1,
-               "year": 2021, 'city': "Сочи", 'free_seats': 30},
+               "year": 2021, 'city': "Сочи", 'freeSeats': 30},
               {'uuid': "1", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 12, "month": 1,
-               "year": 2021, 'city': "Москва", 'free_seats': 0},
+               "year": 2021, 'city': "Москва", 'freeSeats': 0},
               {'uuid': "1", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 13, "month": 1,
-               "year": 2021, 'city': "Москва", 'free_seats': 30},
+               "year": 2021, 'city': "Москва", 'freeSeats': 30},
               {'uuid': "1", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 13, "month": 2,
-               "year": 2021, 'city': "Москва", 'free_seats': 30},
+               "year": 2021, 'city': "Москва", 'freeSeats': 30},
               {'uuid': "1", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 13, "month": 2,
-               "year": 2021, 'city': "Москва", 'free_seats': 30}
+               "year": 2021, 'city': "Москва", 'freeSeats': 30}
               ]
 
     app.debug = True
