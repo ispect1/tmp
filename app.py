@@ -106,7 +106,7 @@ def get_cities():
 @app.route('/api/getPlaces', methods=['GET', 'POST'])
 def get_places():
     data = from_base64(request.json) or {}
-    print(data)
+    print('getPlace', register_users)
     city = data['city']
     count = data['count']
     page = data['page']
@@ -170,7 +170,7 @@ def login():
     data['places'] = {}
     data['isAdmin'] = is_admin
     register_users[tab_num] = data
-    print(register_users)
+    print('users', register_users)
     data = {'code': 1, 'text': 'Успешно', 'data': {'accessToken': _hash, 'isAdmin': is_admin}}
     return jsonify(data)
 
