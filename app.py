@@ -79,7 +79,7 @@ def login():
 @app.route('/api/sign_up', methods=['GET', 'POST'])
 def register():
     data = request.json or {}
-    if set(data) != {"tab_num", 'password'}:
+    if set(data) != {"tab_num", 'password', 'identifier'}:
         return jsonify({'text': 'Неверный формат данных', 'code': -2})
     elif data['tab_num'] in register_users:
         return jsonify({'text': 'Уже зарегистрирован', 'code': -1})
