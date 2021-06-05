@@ -88,7 +88,7 @@ def get_places():
     return jsonify(code=1, text='Успешно', data=sorted_places[page*count:(page+1)*count])
 
 
-@app.route('/api/is_sign_in', methods=["GET", "POST"])
+@app.route('/api/isSignIn', methods=["GET", "POST"])
 def is_sign_in():
     data = from_base64(request.json) or {}
     print(data)
@@ -114,7 +114,7 @@ def login():
         data['places'] = []
         register_users[tab_num] = data
         return jsonify({'code': 1, 'text': 'Успешно', 'data': {'accessToken': _hash}})
-    if data['password'] != register_users[tab_num][data['password']] and data['tabNum'] != tab_num:
+    if data['password'] != register_users[tab_num]['password'] and data['tabNum'] != tab_num:
         return jsonify({'text': 'Неправильный табельный/пароль', 'code': -1})
     _hash = generate_hash()
     data['accessToken'] = _hash
