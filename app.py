@@ -127,6 +127,8 @@ def get_places():
     for user_info in register_users.values():
         if user_info['accessToken'] == token:
             curr_user_info = user_info
+    if curr_user_info is None:
+        return jsonify(code=-1, text='Неправильный токе')
     for place in sorted_places:
         place['isSubscribe'] = place['placeUuid'] in curr_user_info['places']
     return jsonify(code=1, text='Успешно', data=sorted_places[page*count:(page+1)*count])
