@@ -43,14 +43,44 @@ def home():
 #     return json.dumps(None)
 
 
+@app.route('/api/subscribe')
+def subscribe():
+    data = request.json
+    access_token = data['hash']
+    place_uid = data['uuid']
+    if place_uid not in places:
+        return jsonify(code=-1, text='Такого объекта не существует')
+    for tab_num, user_data in register_users.items():
+        if user_data['accessToken'] != access_token:
+            continue
+        if place_uid is user_data['places']:
+            return jsonify(code=-3, text='Пользователь уже зарегистрирован')
+        user_data['places'][place_uid] = places[place_uid]
+        user_data['places'][place_uid]['isVisit'] = False
+        return jsonify(code=1, text='Успешно')
+
+    return jsonify(code=-2, text='Токен неверный')
 
 
-# @app.route('/api/subscribe')
-# def subscribe():
-#     data = request.json
-#     hash = data['hash']
-#     place_uid =
-# @app.route('/api/unsubscribe')
+
+@app.route('/api/unsubscribe')
+def unsubscribe():
+    data = request.json
+    access_token = data['hash']
+    place_uid = data['uuid']
+    if place_uid not in places:
+        return jsonify(code=-1, text='Такого объекта не существует')
+    for tab_num, user_data in register_users.items():
+        if user_data['accessToken'] != access_token:
+            continue
+        if place_uid not in user_data['places']:
+            return jsonify(code=-3, text='Пользователь уже зарегистрирован')
+        user_data['places'][place_uid] = places[place_uid]
+        user_data['places'][place_uid]['isVisit'] = False
+        return jsonify(code=1, text='Успешно')
+
+    return jsonify(code=-2, text='Токен неверный')
+
 @app.route('/api/сheckVisit')
 def check_visit():
     data = from_base64(request.json) or {}
@@ -59,6 +89,7 @@ def check_visit():
     for tab_num, user_data in register_users.items():
         if access_token != user_data['accessToken']:
             continue
+    # for tab_num
 
     return jsonify(code=-3, text='Invalid token')
 
@@ -71,10 +102,11 @@ def get_cities():
 @app.route('/api/getPlaces', methods=['GET', 'POST'])
 def get_places():
     data = from_base64(request.json) or {}
+    print(data)
     city = data['city']
     count = data['count']
     page = data['page']
-    sorted_places = [place for place in places if place['city'] == city]
+    sorted_places = [place for place in list(places.values()) if place['city'] == city]
     if set(data) == {'city'}:
         sorted_places = [place for place in sorted_places if date(day=place['day'], month=place['month'],
                                                                   year=place['year']) >= date.today()]
@@ -111,7 +143,7 @@ def login():
     if tab_num not in register_users:
         _hash = generate_hash()
         data['accessToken'] = _hash
-        data['places'] = []
+        data['places'] = {}
         register_users[tab_num] = data
         return jsonify({'code': 1, 'text': 'Успешно', 'data': {'accessToken': _hash}})
     if data['password'] != register_users[tab_num]['password'] and data['tabNum'] != tab_num:
@@ -119,7 +151,8 @@ def login():
     _hash = generate_hash()
     data['accessToken'] = _hash
     register_users[tab_num] = data
-    return jsonify({'code': 1, 'text': 'Успешно', 'data': {'accessToken': _hash}})
+    isAdmin = False if tab_num != 'admin' else True
+    return jsonify({'code': 1, 'text': 'Успешно', 'data': {'accessToken': _hash, isAdmin: isAdmin}})
 
 
 # @app.route('/register', methods=['GET', 'POST'])
@@ -145,19 +178,19 @@ def logout():
 if __name__ == '__main__':
     all_users = {"123", "456", "admin"}
     register_users = dict()
-    places = [{'uuid': "1", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 12, "month": 1,
-              "year": 2021, 'city': "Москва", 'freeSeats': 1},
-              {'uuid': "1", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 12, "month": 1,
-               "year": 2021, 'city': "Сочи", 'freeSeats': 30},
-              {'uuid': "1", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 12, "month": 1,
-               "year": 2021, 'city': "Москва", 'freeSeats': 0},
-              {'uuid': "1", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 13, "month": 1,
-               "year": 2021, 'city': "Москва", 'freeSeats': 30},
-              {'uuid': "1", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 13, "month": 2,
-               "year": 2021, 'city': "Казань", 'freeSeats': 30},
-              {'uuid': "1", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 13, "month": 2,
-               "year": 2021, 'city': "Санкт-Петербург", 'freeSeats': 30}
-              ]
+    places = {"1": {'uuid': "1", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 12, "month": 1,
+                    "year": 2021, 'city': "Москва", 'freeSeats': 1},
+              "2": {'uuid': "2", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 12, "month": 1,
+                    "year": 2021, 'city': "Москва", 'freeSeats': 30},
+              "3": {'uuid': "3", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 12, "month": 1,
+                    "year": 2021, 'city': "Москва", 'freeSeats': 0},
+              "4": {'uuid': "4", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 13, "month": 1,
+                    "year": 2021, 'city': "Москва", 'freeSeats': 30},
+              "5": {'uuid': "5", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 13, "month": 2,
+                    "year": 2021, 'city': "Казань", 'freeSeats': 30},
+              "6": {'uuid': "6", "title": "Дворец спорта", "description": "Заебись. " * 20, "day": 13, "month": 2,
+                    "year": 2021, 'city': "Санкт-Петербург", 'freeSeats': 30}
+              }
 
     app.debug = True
     db.create_all()
