@@ -3,45 +3,18 @@
 """Flask Login Example and instagram fallowing find"""
 from crypto import generate_hash
 from flask import Flask, url_for, render_template, request, redirect, session
-from flask_sqlalchemy import SQLAlchemy
-from instagram import getfollowedby, getname
-from datetime import date
 from flask import jsonify
 from datetime import date
 from utils import from_base64
+from crypto import *
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
-db = SQLAlchemy(app)
-
-
-class User(db.Model):
-    """ Create user table"""
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True)
-    password = db.Column(db.String(80))
-
-    def __init__(self, username, password):
-        self.username = username
-        self.password = password
 
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    """ Session control"""
-    if not session.get('logged_in'):
-        return render_template('index.html')
-    else:
-        if request.method == 'POST':
-            username = getname(request.form['username'])
-            return render_template('index.html', data=getfollowedby(username))
-        return render_template('index.html')
-
-
-# @app.route('/api/sync_key', methods=['GET', 'POST'])
-# def sync_key():
-#     return json.dumps(None)
+    return '<h1><Hello, DEV HACK/h1>'
 
 
 @app.route('/api/subscribe', methods=['GET', 'POST'])
@@ -180,26 +153,6 @@ def login():
     return jsonify(data)
 
 
-# @app.route('/register', methods=['GET', 'POST'])
-# def register():
-#     """Register Form"""
-#     if request.method == 'POST':
-#         new_user = User(
-#             username=request.form['username'],
-#             password=request.form['password'])
-#         db.session.add(new_user)
-#         db.session.commit()
-#         return render_template('login.html')
-#     return render_template('register.html')
-
-
-@app.route("/logout")
-def logout():
-    """Logout Form"""
-    session['logged_in'] = False
-    return redirect(url_for('home'))
-
-
 if __name__ == '__main__':
     all_users = {"123", "456", "admin"}
     register_users = dict()
@@ -230,7 +183,5 @@ if __name__ == '__main__':
               "year": 2021, 'city': "Санкт-Петербург", 'freeSeats': 30, 'photoUrl': hok_photo, 'datetime': '25 июля'}
               }
 
-    app.debug = True
-    db.create_all()
-    app.secret_key = "123"
+    app.debug = False
     app.run(host='0.0.0.0')

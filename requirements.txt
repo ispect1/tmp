@@ -1,6 +1,4 @@
 Flask
-Flask-SQLAlchemy
-requests
 Crypto
 six
 pycryptodome
